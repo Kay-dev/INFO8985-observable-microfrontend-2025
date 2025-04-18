@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  tasks:
+  - name: "Install kubernetes python package"
+    pip:
+      name: kubernetes
+      state: present
+  - name: Add signoz chart repo
+    kubernetes.core.helm_repository:
+      name: signoz
+      repo_url: "https://charts.signoz.io"
+  - name: Deploy latest version of signoz
+    kubernetes.core.helm:
+      name: my-signoz
+      chart_ref: signoz/signoz
+      release_namespace: default
+      force: true
+      release_namespace: default
+  - name: monitor k8s infrastructure too
+    kubernetes.core.helm:
+      name: my-signoz-k8s-infra
+      chart_ref: signoz/k8s-infra
+      release_namespace: default
+      set_values:
+        - value: otelCollectorEndpoint=my-signoz-otel-collector:4317
+          value_type: string
