@@ -2,3 +2,6 @@ uvicorn
 fastapi
 sendgrid
 dotenv
+opentelemetry-distro
+opentelemetry-exporter-otlp
+opentelemetry-instrumentation-fastapi
